@@ -1,16 +1,21 @@
 // get all problems
-import express from 'express';
+import express, { Request, Response, NextFunction } from 'express';
 import { ProblemsController } from '../controllers/problems.controller';
+import logger from '../utils/logger';
 
 const router = express.Router();
 
-router.post('/problems/all', ProblemsController.getAllProblems);
+router.use((req: Request, res: Response, next: NextFunction)=>{
+    logger.info(`Problems Request: ${req.url}, ${req.method}, ${JSON.stringify(req.body)}`);
+    next();
+})
 
-router.post('/problems/:id', ProblemsController.getProblem);
+router.get('/problems/all', ProblemsController.getAllProblems);
 
-router.post('/problems/:level', ProblemsController.getProblem);
+router.get('/problems/:id', ProblemsController.getProblem);
 
-router.post('/problems/:name', ProblemsController.getProblem);
+// using query
+router.get('/problems', ProblemsController.getProblemByQuery);
 
 router.get('/problems', ProblemsController.tbd);
 

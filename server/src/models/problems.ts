@@ -1,17 +1,17 @@
 import mongoose from "mongoose";
 
-enum Level{
+export enum Level{
     Easy='easy',
     Medium='medium',
     Hard='hard'
 }
 
-interface ProblemsAttrs{
+export interface ProblemsAttrs{
+    id?: string;
     name: string;
-    description: string;
     topic: string;
     level: Level;
-    Statement: string;
+    statement: string;
     youtube: string;
     article: string;
     leetcode: string;
@@ -21,12 +21,11 @@ interface ProblemsModel extends mongoose.Model<ProblemsDoc>{
     build(attrs: ProblemsAttrs): ProblemsDoc
 }
 
-interface ProblemsDoc extends mongoose.Document{
+export interface ProblemsDoc extends mongoose.Document{
     name: string;
-    description: string;
     topic: string;
     level: string;
-    Statement: string;
+    statement: string;
     youtube: string;
     article: string;
     leetcode: string;
@@ -34,13 +33,21 @@ interface ProblemsDoc extends mongoose.Document{
 
 let problemsSchema = new mongoose.Schema({
     name: {type: String, require: true},
-    description: {type: String, require: true},
     topic: {type: String, require: true},
     level: {type: String, require: true, enum: ['easy', 'medium', 'hard']},
     statement: {type: String, require: true},
     youtube: {type: String, require: true},
     article: {type: String, require: true},
     leetcode: {type: String, require: true}
+}, {
+    toJSON: {
+        transform(doc, ret){
+            ret.id = ret._id;
+            delete ret._id;
+            delete ret.password;
+            delete ret.__v;
+        }
+    }
 });
 
 problemsSchema.statics.build = (attrs: ProblemsAttrs) =>{

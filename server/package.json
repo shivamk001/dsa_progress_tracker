@@ -4,7 +4,8 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "server": "ts-node src/server.ts"
+    "server": "ts-node src/server.ts",
+    "seeder": "ts-node scripts/seeder.ts"
   },
   "keywords": [],
   "author": "",
