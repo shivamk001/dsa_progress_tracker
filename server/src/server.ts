@@ -21,7 +21,7 @@ let startServer = async () =>{
     let mongoDbUrl = Env.get('MONGODB_URL');
     // connect to mongoose
     await mongoose.connect(mongoDbUrl);
-    logger.info(`Mongoose connected:, ${mongoose.connection.readyState}`);
+    logger.info(`Mongoose connected:, ${mongoose.connection.readyState}, ${Env.get('NODE_ENV')}`);
 
     let port = Env.get('APP_PORT');
     app.listen(port, ()=>{

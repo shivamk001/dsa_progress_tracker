@@ -37,13 +37,13 @@ export class ProblemsService{
         return problem;
     }
 
-    public static async getProblemByQuery(query: Query): Promise<ProblemsDoc | null>{
+    public static async getProblemByQuery(query: Query): Promise<ProblemsDoc[] | null>{
         if(!query.level && !query.topic && !query.name){
             throw new Error('No query provided');
         }
         console.log(query);
 
-        let problem: ProblemsDoc | null= await Problems.findOne({
+        let problem: ProblemsDoc[] | null= await Problems.find({
                 ...(query.topic && { topic: query.topic }),
                 ...(query.name && { name: { $regex: query.name, $options: 'i' }}),
                 ...(query.level && { level: query.level })

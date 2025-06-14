@@ -12,11 +12,13 @@ export class AuthController{
         const { email, password } = req.body;
 
         const existingUser = await User.findOne({email});
+        console.log('ExistingUser', existingUser);
+        
         if(!existingUser){
-            throw new BadRequestError('Invalid Credentials');
+            throw new BadRequestError('Invalid Credentials 1');
         }
 
-        const passwordsMatch=await Password.compare(existingUser.password, password);
+        const passwordsMatch=await Password.compare(existingUser!.password, password);
         
         if(!passwordsMatch){
             throw new BadRequestError('Invalid Credentials');
@@ -32,7 +34,8 @@ export class AuthController{
         req.session={
             jwt: userJWT
         }
-
+        console.log('REQ SES:', req.session);
+        
         res.status(200).send(existingUser);
     }
 
