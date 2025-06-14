@@ -1,24 +1,33 @@
 import mongoose from "mongoose";
+import { Level } from "./problems";
+import { Topics } from "./topics";
 
 interface DoneAttrs{
     userId: string;
     problemId: string;
+    // level: Level;
+    // topics: Topics
+    level: string;
+    topics: string
 }
 
 interface DoneModel extends mongoose.Model<DoneDoc>{
     build(attrs: DoneAttrs): DoneDoc;
 }
 
-interface DoneDoc extends mongoose.Document{
+export interface DoneDoc extends mongoose.Document{
     userId: string;
     problemId: string;
+    level: string;
+    topic: string;
 }
 
 
 let doneSchema = new mongoose.Schema({
     userId: {type: mongoose.Schema.Types.ObjectId, ref: 'Users', require: true},
     problemId: {type: mongoose.Schema.Types.ObjectId, ref: 'Problems', require: true},
-    level: {type: String, require: true, enum: ['easy', 'medium', 'hard']}
+    level: {type: String, require: true, enum: ['easy', 'medium', 'hard']},
+    topic: {type: String, require: true}
 }, {
     toJSON: {
         transform(doc, ret){

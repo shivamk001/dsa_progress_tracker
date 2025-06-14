@@ -3,6 +3,7 @@ import bodyParser from "body-parser";
 import cookieSession from 'cookie-session';
 import AuthRouter from "./routes/auth";
 import ProblemsRouter from './routes/problem';
+import UserRouter from './routes/user';
 import logger from "./utils/logger";
 import { Env } from "./utils/env";
 
@@ -28,6 +29,8 @@ app.get('/uptime', (req: Request, res: Response)=>{
 app.use(AuthRouter);
 
 app.use(ProblemsRouter);
+
+app.use(UserRouter);
 
 // TODO: use error handler middleware
 
