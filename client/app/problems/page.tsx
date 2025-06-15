@@ -2,12 +2,20 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faVideo } from '@fortawesome/free-solid-svg-icons'; '@fortawesome/free-solid-svg-icons';
 
 interface Problems{
     topicWiseProblems: {
         [key: string]: any[]
     };
     totalProblems: number
+}
+
+const levelColors = {
+    easy: 'bg-green-950',
+    medium: 'bg-yellow-600',
+    hard: 'bg-red-600',
 }
 
 interface Progress{
@@ -130,45 +138,120 @@ const Problems = () => {
     }
 
     return (
-        <div>
-            <h4>All Problems</h4>
-            <span>{problems.totalProblems}</span><br/>
-            <span>Done: {progress.totalDone}</span><br/>
-            <span>Easy: {progress.totalEasyDone}</span><br/>
-            <span>Medium: {progress.totalMediumDone}</span><br/>
-            <span>Hard: {progress.totalHardDone}</span><br/>
-            <div>
+        <div className='flex flex-col items-center px-4 w-full'>
+            <h2 className='m-4 text-center w-[95%]'>Top Coding Interview Problems</h2>
+
+            <div className="m-4 flex flex-row bg-gray-800 w-[95%] p-4 justify-evenly rounded">
+                {/* For TSX uncomment the commented types below */}
+                <div className="flex flex-row gap-1 border-r border-white p-2">
+                    Total Progress
+                    <div
+                        className="radial-progress"
+                        style={{ "--value": `${(progress.totalDone / problems.totalProblems) * 100}` } as React.CSSProperties}
+                        aria-valuenow={(progress.totalDone / problems.totalProblems) * 100}
+                        role="progressbar"
+                    >
+                        {Math.round((progress.totalDone / problems.totalProblems) * 100)}%
+                    </div>
+                </div>
+
+
+
+                <div className="flex flex-col gap-1 border-r border-white p-2">
+                    <div>Easy</div>
+                    <div>{progress.totalEasyDone}/{problems.totalProblems} completed</div>
+                    <progress
+                    className="progress progress-primary w-56"
+                    value={(progress.totalEasyDone / problems.totalProblems) * 100}
+                    max="100"
+                    ></progress>
+                </div>
+
+                <div className="flex flex-col gap-1 border-r border-white p-2">
+                    <div>Medium</div>
+                    <div>{progress.totalMediumDone}/{problems.totalProblems} completed</div>
+                    <progress
+                    className="progress progress-primary w-56"
+                    value={(progress.totalMediumDone / problems.totalProblems) * 100}
+                    max="100"
+                    ></progress>
+                </div>
+
+                <div className="flex flex-col gap-1 border-r border-white p-2">
+                    <div>Hard</div>
+                    <div>{progress.totalHardDone}/{problems.totalProblems} completed</div>
+                    <progress
+                    className="progress progress-primary w-56"
+                    value={(progress.totalHardDone / problems.totalProblems) * 100}
+                    max="100"
+                    ></progress>
+                </div>
+            </div>
+
+            <h2 className='m-4 text-center w-[95%]'>All Problems</h2>
+
+            <div className="join join-vertical bg-gray-800 m-4 w-[95%] rounded">
                 {Object.entries(problems.topicWiseProblems).map(([topic, problemList])=>(
-                    <div>
-                        <h2>{topic}</h2>
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Marked</th>
-                                    <th>Name</th>
-                                    <th>Level</th>
-                                    <th>Youtube</th>
-                                    <th>Leetcode</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {problemList.map(problem=>(
-                                    <tr key={problem.id}>
-                                        <td><input type='checkbox' 
-                                            id={problem.id} 
-                                            name={problem.id} 
-                                            value={problem.id} 
-                                            checked={problem.isMarked} 
-                                            onChange={async ()=> await clicked(problem.id, !problem.isMarked)}/>
-                                        </td>
-                                        <td>{problem.name}</td>
-                                        <td>{problem.level}</td>
-                                        <td>{problem.youtube}</td>
-                                        <td>{problem.leetcode}</td>
+                    <div className="collapse collapse-arrow join-item border-base-300 border" key={topic}>
+                        <input type="radio" name="my-accordion-4" />
+                        <div className="collapse-title font-semibold">{topic.toUpperCase()}</div>
+                        {/* <div className="overflow-x-auto"> */}
+                            <table className="table">
+                                <thead>
+                                    <tr>
+                                        <th className='w-[10%]'>Status</th>
+                                        <th className='w-[40%]'>Name</th>
+                                        <th className='w-[20%]'>Level</th>
+                                        <th className='w-[10%]'>Youtube</th>
+                                        <th className='w-[10%]'>Article</th>
+                                        <th className='w-[10%]'>Practice</th>
+                                        <th></th>
                                     </tr>
-                                ))}
-                            </tbody>
-                        </table>
+                                </thead>
+
+                                <tbody>
+                                    {problemList.map(problem=>(
+                                        <tr key={problem.id}>
+                                            <th className='w-[10%]'>
+                                                <label>
+                                                    <input type='checkbox' 
+                                                        id={problem.id} 
+                                                        name={problem.id} 
+                                                        value={problem.id} 
+                                                        checked={problem.isMarked} 
+                                                        onChange={async ()=> await clicked(problem.id, !problem.isMarked)}/>
+                                                </label>
+                                            </th>
+                                            <td className='w-[40%]'>
+                                                <div className="flex items-center gap-3">
+                                                    <div>
+                                                        <div className="font-bold">{problem.name}</div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td className='w-[20%]'>
+                                                <span className={`badge badge-ghost badge-sm ${levelColors[problem.level]}`}>{problem.level}</span>
+                                            </td>
+                                            <td className='w-[10%]'>
+                                                <a href={problem.youtube} target="_blank" rel="noopener noreferrer">
+                                                    <img src="/youtube.png" alt="Youtube"  className="w-6 h-6 bg-transparent" />
+                                                </a>
+                                            </td>
+                                            <td className='w-[10%]'>
+                                                <a href={problem.article} target="_blank" rel="noopener noreferrer">
+                                                    <img src="/file.svg" alt="Article"  className="w-6 h-6 bg-transparent" />
+                                                </a>
+                                            </td>
+                                            <th className='w-[10%]'>
+                                                    <a href={problem.leetcode} target="_blank" rel="noopener noreferrer">
+                                                        <img src="/leetcode.png" alt="Leetcode"  className="w-6 h-6 bg-transparent" />
+                                                    </a>
+                                            </th>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        {/* </div> */}
                     </div>
                 ))}
             </div>

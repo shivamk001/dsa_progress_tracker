@@ -24,13 +24,6 @@ export default function LoginPage() {
         setEmail(email as string);
         setPassword(password as string);
 
-        // const response = await axios.post('http://localhost:8080/auth/user/signin', {
-        //     username, 
-        //     password
-        // },{
-        //     withCredentials: true
-        // });
-
         let response=await doRequest();
 
         if(response){
@@ -41,26 +34,29 @@ export default function LoginPage() {
     }
 
     return (
-    <form onSubmit={handleSubmit}>
-        <fieldset className="fieldset">
-            <legend className="fieldset-legend">Email</legend>
-            <input type="text" name='email' 
-                onChange={e=>setEmail(e.target.value)}
-                className="input" 
-                placeholder="Type here" 
-                required/>
-            <p className="label">Required</p>
-        </fieldset>
-        <fieldset className="fieldset">
-            <legend className="fieldset-legend">Password</legend>
-            <input type="password" name='password' 
-                onChange={e=>setPassword(e.target.value)}
-                className="input" 
-                placeholder="Type here" 
-                required/>
-            <p className="label">Required</p>
-        </fieldset>
-        <button className="btn btn-xs sm:btn-sm md:btn-md lg:btn-lg xl:btn-xl">Login</button>
-    </form>
+    <div className='h-screen w-screen flex items-center justify-center overflow-hidden'>
+        <form onSubmit={handleSubmit} className='w-96 flex flex-col items-center border-1 p-2 border-gray-500'>
+            <fieldset className="fieldset w-full flex flex-col items-center">
+                <legend className="fieldset-legend">Email</legend>
+                <input type="text" name='email' 
+                    onChange={e=>setEmail(e.target.value)}
+                    className="input" 
+                    placeholder="Type here" 
+                    required/>
+                <p className="label">Required</p>
+            </fieldset>
+            <fieldset className="fieldset w-full flex flex-col items-center">
+                <legend className="fieldset-legend">Password</legend>
+                <input type="password" name='password' 
+                    onChange={e=>setPassword(e.target.value)}
+                    className="input" 
+                    placeholder="Type here" 
+                    required/>
+                <p className="label">Required</p>
+            </fieldset>
+            <button className="btn">Login</button>
+        </form>
+    </div>
+
     )
 }
