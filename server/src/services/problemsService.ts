@@ -3,7 +3,7 @@ import { CustomError } from "../utils/error";
 import logger from "../utils/logger";
 
 interface TopicWiseProblems{
-    [key: string] : ProblemsDoc[]
+    [key: string] : ProblemsDoc[];
 }
 
 interface Query{
@@ -14,9 +14,9 @@ interface Query{
 
 // TODO: complete this
 export class ProblemsService{
-    public static async getAllProblems(): Promise<TopicWiseProblems>{
+    public static async getAllProblems(): Promise<{topicWiseProblems: TopicWiseProblems, totalProblems: number}>{
         let problems: ProblemsDoc[] = await Problems.find({});
-        console.log(problems); 
+        // console.log(problems); 
 
         let topicWiseProblems: TopicWiseProblems = {};
 
@@ -27,12 +27,15 @@ export class ProblemsService{
             }
             topicWiseProblems[topic].push(problem);
         })
-        return topicWiseProblems;
+        return {
+            topicWiseProblems,
+            totalProblems: problems.length
+        };
     }
 
     public static async getProblemById(id: string): Promise<ProblemsDoc | null>{
         let problem: ProblemsDoc | null= await Problems.findById({_id: id});
-        console.log(problem); 
+        // console.log(problem); 
 
         return problem;
     }
@@ -41,14 +44,14 @@ export class ProblemsService{
         if(!query.level && !query.topic && !query.name){
             throw new CustomError(400, 'No query provided');
         }
-        console.log(query);
+        // console.log(query);
 
         let problem: ProblemsDoc[] | null= await Problems.find({
                 ...(query.topic && { topic: query.topic }),
                 ...(query.name && { name: { $regex: query.name, $options: 'i' }}),
                 ...(query.level && { level: query.level })
         });
-        console.log(problem); 
+        // console.log(problem); 
 
         return problem;
     }

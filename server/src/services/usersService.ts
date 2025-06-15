@@ -16,7 +16,7 @@ export class UsersService{
 
         let done = await Done.find({
             userId
-        });
+        }).select('problemId level topic');
 
         let totalDone = done.length;
 
@@ -26,7 +26,6 @@ export class UsersService{
 
         let totalHardDone = done.filter((problem: DoneDoc) => problem.level == Level.Hard).length;
 
-        console.log(done);
         return {
             done,
             totalDone,

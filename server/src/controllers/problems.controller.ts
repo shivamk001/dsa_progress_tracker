@@ -5,7 +5,9 @@ export class ProblemsController{
     public static async getAllProblems(req: Request, res: Response, next: NextFunction){
         try{
             let problems = await ProblemsService.getAllProblems();
-            res.json({data: problems});
+            res.json({
+                ...problems
+            });
         }
         catch(err){
             next(err);

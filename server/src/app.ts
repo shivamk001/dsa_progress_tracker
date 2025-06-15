@@ -1,6 +1,7 @@
 import express, {NextFunction, Request, Response} from "express";
 import bodyParser from "body-parser";
 import cookieSession from 'cookie-session';
+import cors from 'cors';
 import AuthRouter from "./routes/auth";
 import ProblemsRouter from './routes/problem';
 import UserRouter from './routes/user';
@@ -9,6 +10,11 @@ import { Env } from "./utils/env";
 import errorHandlingMiddleware from "./middlewares/errorHandler";
 
 const app = express();
+
+app.use(cors({
+    origin: 'http://localhost:3000',
+    credentials: true,
+}));
 
 app.use(bodyParser.json());
 
@@ -35,4 +41,4 @@ app.use(UserRouter);
 
 app.use(errorHandlingMiddleware);
 
-export default app;
+export default app; 

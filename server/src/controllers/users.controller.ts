@@ -10,7 +10,11 @@ export class UsersController{
             let progress = await UsersService.getUserProgress(currentUser.id);
 
             res.json({
-                data: progress
+                done: progress.done,
+                totalDone: progress.totalDone,
+                totalEasyDone: progress.totalEasyDone,
+                totalHardDone: progress.totalHardDone,
+                totalMediumDone: progress.totalMediumDone
             })
         }
         catch(err){
@@ -24,7 +28,7 @@ export class UsersController{
             let currentUser = req.currentUser;
 
             let {problemId, mark} = req.body;
-            console.log('MARKPROBLEM:', req.body, currentUser);
+            // console.log('MARKPROBLEM:', req.body, currentUser);
             
 
             await UsersService.markProblem(currentUser.id, problemId, mark);
