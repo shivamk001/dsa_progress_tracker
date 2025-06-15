@@ -16,7 +16,7 @@ router.use((req: Request, res: Response, next: NextFunction)=>{
 
 router.use(currentUser);
 
-router.post('/user/progress', UsersController.getUserProgress);
+router.get('/user/progress', UsersController.getUserProgress);
 
 router.post('/user/mark', UsersController.markProblem);
 

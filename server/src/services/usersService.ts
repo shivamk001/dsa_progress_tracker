@@ -1,17 +1,39 @@
 import mongoose from "mongoose";
 import Done, {DoneDoc} from "../models/done";
-import Problems, { ProblemsDoc } from "../models/problems";
+import Problems, { Level, ProblemsDoc } from "../models/problems";
 import logger from "../utils/logger";
 import { CustomError } from "../utils/error";
 
 export class UsersService{
-    public static async getUserProgress(userId: string): Promise<DoneDoc[]>{
+    public static async getUserProgress(userId: string): Promise<
+        { 
+            done: DoneDoc[], 
+            totalDone: number,
+            totalEasyDone: number,
+            totalMediumDone: number,
+            totalHardDone: number
+        }>{
 
         let done = await Done.find({
             userId
         });
 
-        return done;
+        let totalDone = done.length;
+
+        let totalEasyDone = done.filter((problem: DoneDoc) => problem.level == Level.Easy).length;
+
+        let totalMediumDone = done.filter((problem: DoneDoc) => problem.level == Level.Medium).length;
+
+        let totalHardDone = done.filter((problem: DoneDoc) => problem.level == Level.Hard).length;
+
+        console.log(done);
+        return {
+            done,
+            totalDone,
+            totalEasyDone,
+            totalHardDone,
+            totalMediumDone
+        };
     }
 
     public static async markProblem(userId: string, problemId: string, mark: true): Promise<void>{
@@ -29,14 +51,16 @@ export class UsersService{
             throw new CustomError(404, 'Problem not found');
         }
         if(mark){
-            // create entry
-            let done = Done.build({
+
+            // create entry and check for duplicates
+            await Done.findOneAndUpdate({
                 userId,
                 problemId,
                 level: problem.level,
                 topic: problem.topic
-            });
-            await done.save();
+            },
+            { $setOnInsert: { userId, problemId, level: problem.level, topic: problem.topic  } },
+            { upsert: true, new: true });
         }
         else{
             // delete entry
