@@ -40,6 +40,6 @@ doneSchema.statics.build = (attrs: DoneAttrs)=>{
     return new Done(attrs);
 }
 
-let Done = mongoose.model<DoneDoc, DoneModel>('User', doneSchema);
+let Done = mongoose.model<DoneDoc, DoneModel>('Done', doneSchema);
 
 export default Done;
