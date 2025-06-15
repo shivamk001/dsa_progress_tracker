@@ -5,7 +5,8 @@
   "scripts": {
     "test": "jest",
     "server": "ts-node src/server.ts",
-    "seeder": "ts-node scripts/seeder.ts"
+    "seeder": "ts-node scripts/seeder.ts",
+    "dev": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/server.ts"
   },
   "keywords": [],
   "author": "",

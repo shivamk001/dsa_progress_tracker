@@ -8,7 +8,7 @@ interface DoneAttrs{
     // level: Level;
     // topics: Topics
     level: string;
-    topics: string
+    topic: string
 }
 
 interface DoneModel extends mongoose.Model<DoneDoc>{

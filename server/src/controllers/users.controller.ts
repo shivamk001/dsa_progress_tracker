@@ -24,6 +24,8 @@ export class UsersController{
             let currentUser = req.currentUser;
 
             let {problemId, mark} = req.body;
+            console.log('MARKPROBLEM:', req.body, currentUser);
+            
 
             await UsersService.markProblem(currentUser.id, problemId, mark);
 

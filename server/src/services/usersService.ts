@@ -1,5 +1,7 @@
+import mongoose from "mongoose";
 import Done, {DoneDoc} from "../models/done";
 import Problems, { ProblemsDoc } from "../models/problems";
+import logger from "../utils/logger";
 
 // TODO: complete this
 export class UsersService{
@@ -14,6 +16,10 @@ export class UsersService{
 
     public static async markProblem(userId: string, problemId: string, mark: true): Promise<void>{
 
+        if(problemId == undefined || mark == undefined){
+            throw new Error(`Invalid input: ${problemId === undefined ? 'ProblemId' : ''} ${mark === undefined ? 'Mark' : ''} is undefined`);
+        }
+
         // get the problem
         let problem: ProblemsDoc | null= await Problems.findOne({
                 _id: problemId
@@ -21,7 +27,7 @@ export class UsersService{
 
         if(!problem){
             // TODO: cr4eate error class not found
-            throw new Error('not found');
+            throw new Error('Problem not found');
         }
         if(mark){
             // create entry
@@ -29,18 +35,19 @@ export class UsersService{
                 userId,
                 problemId,
                 level: problem.level,
-                topics: problem.topic
+                topic: problem.topic
             });
             await done.save();
         }
         else{
             // delete entry
-            await Done.findOneAndDelete({
-                userId,
-                problemId,
+            let result = await Done.deleteOne({
+                userId: new mongoose.Types.ObjectId(userId),
+                problemId: new mongoose.Types.ObjectId(problemId),
                 level: problem.level,
-                topics: problem.topic
+                topic: problem.topic
             });
+            logger.info(`RESULT: ${JSON.stringify(result)}`);
         }
     }
 
