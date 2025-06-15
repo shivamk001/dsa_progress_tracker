@@ -1,5 +1,5 @@
 import Problems, { ProblemsDoc } from "../models/problems";
-import { Topics } from "../models/topics";
+import { CustomError } from "../utils/error";
 import logger from "../utils/logger";
 
 interface TopicWiseProblems{
@@ -39,7 +39,7 @@ export class ProblemsService{
 
     public static async getProblemByQuery(query: Query): Promise<ProblemsDoc[] | null>{
         if(!query.level && !query.topic && !query.name){
-            throw new Error('No query provided');
+            throw new CustomError(400, 'No query provided');
         }
         console.log(query);
 

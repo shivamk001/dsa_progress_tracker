@@ -6,6 +6,7 @@ import ProblemsRouter from './routes/problem';
 import UserRouter from './routes/user';
 import logger from "./utils/logger";
 import { Env } from "./utils/env";
+import errorHandlingMiddleware from "./middlewares/errorHandler";
 
 const app = express();
 
@@ -32,6 +33,6 @@ app.use(ProblemsRouter);
 
 app.use(UserRouter);
 
-// TODO: use error handler middleware
+app.use(errorHandlingMiddleware);
 
 export default app;

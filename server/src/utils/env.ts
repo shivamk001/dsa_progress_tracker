@@ -1,6 +1,7 @@
 import dotenv from 'dotenv';
 import path from 'path';
 import logger from './logger';
+import { CustomError } from './error';
 
 export class Env{
     public static async init(){
@@ -20,6 +21,6 @@ export class Env{
         if(process.env[key]){
             return process.env[key];
         }
-        throw new Error(`Key not found, ${key}`);
+        throw new CustomError(500, `Key not found, ${key}`);
     }
 }

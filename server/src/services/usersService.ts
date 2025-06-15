@@ -2,8 +2,8 @@ import mongoose from "mongoose";
 import Done, {DoneDoc} from "../models/done";
 import Problems, { ProblemsDoc } from "../models/problems";
 import logger from "../utils/logger";
+import { CustomError } from "../utils/error";
 
-// TODO: complete this
 export class UsersService{
     public static async getUserProgress(userId: string): Promise<DoneDoc[]>{
 
@@ -17,7 +17,7 @@ export class UsersService{
     public static async markProblem(userId: string, problemId: string, mark: true): Promise<void>{
 
         if(problemId == undefined || mark == undefined){
-            throw new Error(`Invalid input: ${problemId === undefined ? 'ProblemId' : ''} ${mark === undefined ? 'Mark' : ''} is undefined`);
+            throw new CustomError(400, `Invalid input: ${problemId === undefined ? 'ProblemId' : ''} ${mark === undefined ? 'Mark' : ''} is undefined`);
         }
 
         // get the problem
@@ -26,8 +26,7 @@ export class UsersService{
         });
 
         if(!problem){
-            // TODO: cr4eate error class not found
-            throw new Error('Problem not found');
+            throw new CustomError(404, 'Problem not found');
         }
         if(mark){
             // create entry

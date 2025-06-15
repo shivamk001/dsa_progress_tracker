@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 import Problems, {ProblemsAttrs, Level} from "../src/models/problems";
 import {Topics} from "../src/models/topics";
 import logger from "../src/utils/logger";
+import { CustomError } from "../src/utils/error";
 
 const problems: ProblemsAttrs[] = [
     {
@@ -353,7 +354,7 @@ let insert = async () =>{
     }
     catch(err){
         console.error(err);
-        throw new Error('error');
+        throw new CustomError(500, JSON.stringify(err));
     }
 }
 

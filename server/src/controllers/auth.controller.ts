@@ -2,8 +2,7 @@ import { Request, Response } from "express";
 import jwt from 'jsonwebtoken';
 
 import User from "../models/user";
-import { BadRequestError } from "../utils/badrequestError";
-import { RequestValidationError } from "../utils/requestvalidationError";
+import { CustomError } from "../utils/error";
 import { validationResult } from "express-validator";
 import { Password } from "../utils/password";
 
@@ -15,13 +14,13 @@ export class AuthController{
         console.log('ExistingUser', existingUser);
         
         if(!existingUser){
-            throw new BadRequestError('Invalid Credentials 1');
+            throw new CustomError(401, 'Invalid Credentials 1');
         }
 
         const passwordsMatch=await Password.compare(existingUser!.password, password);
         
         if(!passwordsMatch){
-            throw new BadRequestError('Invalid Credentials');
+            throw new CustomError(401, 'Invalid Credentials');
         }
 
         //generate jwt
@@ -43,14 +42,14 @@ export class AuthController{
         const error=validationResult(req);
 
         if(!error.isEmpty()){
-            throw new RequestValidationError(error.array());
+            throw new CustomError(400, error.array().join(' '));
         }
 
         const { email, username, password }=req.body;
         const existingUser=await User.findOne({email});
 
         if(existingUser){
-            throw new BadRequestError('Email in use'); 
+            throw new CustomError(401, 'Email in use'); 
         }
 
         const user=User.build({email, username, password});
