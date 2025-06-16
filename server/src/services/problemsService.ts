@@ -1,4 +1,4 @@
-import Problems, { ProblemsDoc } from "../models/problems";
+import Problems, { Level, ProblemsDoc } from "../models/problems";
 import { CustomError } from "../utils/error";
 import logger from "../utils/logger";
 
@@ -14,11 +14,15 @@ interface Query{
 
 // TODO: complete this
 export class ProblemsService{
-    public static async getAllProblems(): Promise<{topicWiseProblems: TopicWiseProblems, totalProblems: number}>{
+    public static async getAllProblems(): Promise<{topicWiseProblems: TopicWiseProblems, totalProblems: number, totalEasyProblems: number, totalMediumProblems: number, totalHardProblems: number }>{
         let problems: ProblemsDoc[] = await Problems.find({});
         // console.log(problems); 
 
         let topicWiseProblems: TopicWiseProblems = {};
+
+        let totalEasyProblems = 0;
+        let totalMediumProblems = 0;
+        let totalHardProblems = 0;
 
         problems.forEach(problem=>{
             let topic = problem['topic'];
@@ -26,10 +30,18 @@ export class ProblemsService{
                 topicWiseProblems[topic] = [];
             }
             topicWiseProblems[topic].push(problem);
+
+            totalEasyProblems += problem.level === Level.Easy ? 1:0; 
+            totalMediumProblems += problem.level === Level.Medium ? 1:0; 
+            totalHardProblems += problem.level === Level.Hard ? 1:0; 
+
         })
         return {
             topicWiseProblems,
-            totalProblems: problems.length
+            totalProblems: problems.length,
+            totalEasyProblems,
+            totalMediumProblems,
+            totalHardProblems
         };
     }
 

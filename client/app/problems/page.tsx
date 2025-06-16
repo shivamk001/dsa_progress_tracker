@@ -2,14 +2,16 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faVideo } from '@fortawesome/free-solid-svg-icons'; '@fortawesome/free-solid-svg-icons';
+import Link from 'next/link';
 
 interface Problems{
     topicWiseProblems: {
         [key: string]: any[]
     };
-    totalProblems: number
+    totalProblems: number;
+    totalEasyProblems: number;
+    totalMediumProblems: number;
+    totalHardProblems: number
 }
 
 const levelColors = {
@@ -32,7 +34,10 @@ const Problems = () => {
 
     let [problems, setProblems] = useState<Problems>({
         topicWiseProblems: {},
-        totalProblems: 0
+        totalProblems: 0,
+        totalEasyProblems: 0,
+        totalMediumProblems: 0,
+        totalHardProblems: 0
     });
     let [progress, setProgress] = useState<Progress>({
         done: [],
@@ -139,7 +144,7 @@ const Problems = () => {
 
     return (
         <div className='flex flex-col items-center px-4 w-full'>
-            <h2 className='m-4 text-center w-[95%]'>Top Coding Interview Problems</h2>
+            <h2 className='m-4 text-center w-[95%] text-2xl'>Top Coding Interview Problems</h2>
 
             <div className="m-4 flex flex-row bg-gray-800 w-[95%] p-4 justify-evenly rounded">
                 {/* For TSX uncomment the commented types below */}
@@ -159,7 +164,7 @@ const Problems = () => {
 
                 <div className="flex flex-col gap-1 border-r border-white p-2">
                     <div>Easy</div>
-                    <div>{progress.totalEasyDone}/{problems.totalProblems} completed</div>
+                    <div>{progress.totalEasyDone}/{problems.totalEasyProblems} completed</div>
                     <progress
                     className="progress progress-primary w-56"
                     value={(progress.totalEasyDone / problems.totalProblems) * 100}
@@ -169,7 +174,7 @@ const Problems = () => {
 
                 <div className="flex flex-col gap-1 border-r border-white p-2">
                     <div>Medium</div>
-                    <div>{progress.totalMediumDone}/{problems.totalProblems} completed</div>
+                    <div>{progress.totalMediumDone}/{problems.totalMediumProblems} completed</div>
                     <progress
                     className="progress progress-primary w-56"
                     value={(progress.totalMediumDone / problems.totalProblems) * 100}
@@ -177,9 +182,9 @@ const Problems = () => {
                     ></progress>
                 </div>
 
-                <div className="flex flex-col gap-1 border-r border-white p-2">
+                <div className="flex flex-col gap-1 p-2">
                     <div>Hard</div>
-                    <div>{progress.totalHardDone}/{problems.totalProblems} completed</div>
+                    <div>{progress.totalHardDone}/{problems.totalHardProblems} completed</div>
                     <progress
                     className="progress progress-primary w-56"
                     value={(progress.totalHardDone / problems.totalProblems) * 100}
@@ -224,12 +229,13 @@ const Problems = () => {
                                             </th>
                                             <td className='w-[40%]'>
                                                 <div className="flex items-center gap-3">
-                                                    <div>
-                                                        <div className="font-bold">{problem.name}</div>
-                                                    </div>
+                                                    <Link href='/problems/[problemId]' as={`/problems/${problem.id}`}>
+                                                            {problem.name}
+                                                    </Link>    
                                                 </div>
                                             </td>
                                             <td className='w-[20%]'>
+                                                {/* @ts-ignore */}
                                                 <span className={`badge badge-ghost badge-sm ${levelColors[problem.level]}`}>{problem.level}</span>
                                             </td>
                                             <td className='w-[10%]'>

@@ -20,7 +20,7 @@ export class ProblemsController{
 
             let problem = await ProblemsService.getProblemById(id);
 
-            res.json({data: problem});
+            res.send(problem);
         }
         catch(err){
             next(err);
