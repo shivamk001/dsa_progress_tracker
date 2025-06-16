@@ -162,7 +162,7 @@ const Problems = () => {
 
 
 
-                <div className="flex flex-col gap-1 border-r border-white p-2">
+                <div className="flex flex-col items-center gap-1 border-r border-white p-2">
                     <div>Easy</div>
                     <div>{progress.totalEasyDone}/{problems.totalEasyProblems} completed</div>
                     <progress
@@ -193,7 +193,7 @@ const Problems = () => {
                 </div>
             </div>
 
-            <h2 className='m-4 text-center w-[95%]'>All Problems</h2>
+            <h2 className='m-4 text-center w-[95%]  text-2xl'>All Problems</h2>
 
             <div className="join join-vertical bg-gray-800 m-4 w-[95%] rounded">
                 {Object.entries(problems.topicWiseProblems).map(([topic, problemList])=>(

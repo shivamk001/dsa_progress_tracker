@@ -4,8 +4,13 @@ import Problems, { Level, ProblemsDoc } from "../models/problems";
 import logger from "../utils/logger";
 import { CustomError } from "../utils/error";
 
+interface CurrentUser{
+    id: string;
+    email: string;
+}
+
 export class UsersService{
-    public static async getUserProgress(userId: string): Promise<
+    public static async getUserProgress(currentUser: CurrentUser): Promise<
         { 
             done: DoneDoc[], 
             totalDone: number,
@@ -13,7 +18,18 @@ export class UsersService{
             totalMediumDone: number,
             totalHardDone: number
         }>{
+        
+        if(!currentUser){
+            return {
+                done: [],
+                totalDone: 0,
+                totalEasyDone: 0,
+                totalHardDone: 0,
+                totalMediumDone: 0
+            };
+        }
 
+        let userId = currentUser.id;
         let done = await Done.find({
             userId
         }).select('problemId level topic');

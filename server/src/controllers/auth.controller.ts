@@ -75,6 +75,6 @@ export class AuthController{
     }
 
     public static async currentUser(req: Request, res: Response){
-        res.send({currentUser: req.currentUser})
+        res.send(req.currentUser);
     }
 }

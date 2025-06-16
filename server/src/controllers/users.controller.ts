@@ -6,8 +6,9 @@ export class UsersController{
     public static async getUserProgress(req: Request, res: Response, next: NextFunction){
         try{
             let currentUser = req.currentUser;
+            console.log('CURRENT USER IN GET USER PROGRESS:', currentUser);
 
-            let progress = await UsersService.getUserProgress(currentUser.id);
+            let progress = await UsersService.getUserProgress(currentUser);
 
             res.json({
                 done: progress.done,
