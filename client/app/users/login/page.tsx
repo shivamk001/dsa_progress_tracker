@@ -1,9 +1,7 @@
 'use client';
 import { FormEvent, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { useRequest } from '../../../hooks/useRequest';
-import { METHOD } from '../../../utils';
-import { useAppDispatch } from '@/lib/hook';
+import { useAppDispatch, useAppSelector } from '@/lib/hook';
 import { fetchCurrentUser, loginUser } from '@/lib/features/users/usersSlice';
 
 export default function LoginPage() {
@@ -11,16 +9,17 @@ export default function LoginPage() {
     const dispatch = useAppDispatch();
     let [email, setEmail]=useState('');
     let [password, setPassword]=useState('');
+    // let [loginSuccessful, setloginSuccessful]=useState(false);
 
     async function handleSubmit(event: FormEvent<HTMLFormElement>) {
         event.preventDefault()
 
-        let response = await dispatch(loginUser({email, password}));
+        let resp: any = await dispatch(loginUser({email, password}));
 
-        console.log('FETCH CURRENT USER');
-        await dispatch(fetchCurrentUser());
+        // setloginSuccessful(!resp.error && resp.payload.id);
 
-        if(response){
+        if(!resp.error && resp.payload.id){
+            await dispatch(fetchCurrentUser());
             router.push('/problems');
         } else {
             // Handle errors
@@ -28,6 +27,7 @@ export default function LoginPage() {
     }
 
     return (
+    <>
     <div className='h-screen w-screen flex items-center justify-center overflow-hidden'>
         <form onSubmit={handleSubmit} className='w-96 flex flex-col items-center border-1 p-2 border-gray-500'>
             <fieldset className="fieldset w-full flex flex-col items-center">
@@ -51,6 +51,6 @@ export default function LoginPage() {
             <button className="btn">Login</button>
         </form>
     </div>
-
+    </>
     )
 }

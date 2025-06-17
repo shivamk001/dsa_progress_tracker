@@ -66,7 +66,7 @@ const Problems = () => {
                     problem['isMarked']=doneIds.includes(problem.id);
                 }
             }
-            console.log('PROBLEMS DONE:', problemsAll);
+            // console.log('PROBLEMS DONE:', problemsAll);
 
             setProgress(prev=>problemsDone);
             setProblems(prev=>problemsAll);
@@ -166,9 +166,9 @@ const Problems = () => {
                     <div>Easy</div>
                     <div>{progress.totalEasyDone}/{problems.totalEasyProblems} completed</div>
                     <progress
-                    className="progress progress-primary w-56"
-                    value={(progress.totalEasyDone / problems.totalProblems) * 100}
-                    max="100"
+                        className="progress progress-primary w-56"
+                        value={(problems.totalProblems == 0 ? 0 : progress.totalEasyDone / problems.totalProblems) * 100}
+                        max="100"
                     ></progress>
                 </div>
 
@@ -176,9 +176,9 @@ const Problems = () => {
                     <div>Medium</div>
                     <div>{progress.totalMediumDone}/{problems.totalMediumProblems} completed</div>
                     <progress
-                    className="progress progress-primary w-56"
-                    value={(progress.totalMediumDone / problems.totalProblems) * 100}
-                    max="100"
+                        className="progress progress-primary w-56"
+                        value={(problems.totalMediumProblems == 0 ? 0 : progress.totalMediumDone / problems.totalProblems) * 100}
+                        max="100"
                     ></progress>
                 </div>
 
@@ -186,9 +186,9 @@ const Problems = () => {
                     <div>Hard</div>
                     <div>{progress.totalHardDone}/{problems.totalHardProblems} completed</div>
                     <progress
-                    className="progress progress-primary w-56"
-                    value={(progress.totalHardDone / problems.totalProblems) * 100}
-                    max="100"
+                        className="progress progress-primary w-56"
+                        value={(problems.totalHardProblems == 0 ? 0 : progress.totalHardDone / problems.totalProblems) * 100}
+                        max="100"
                     ></progress>
                 </div>
             </div>

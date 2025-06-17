@@ -11,11 +11,11 @@ const Navbar = () => {
     let dispatch = useAppDispatch();
     
     let isLogin = useAppSelector(state=>state.users.loginStatus);
-    console.log('ISLOGIN NAVBAR:', isLogin);
+    // console.log('ISLOGIN NAVBAR:', isLogin);
 
     const logout = async () =>{
         let resp = await dispatch(logoutUser());
-        console.log('NAVBAR LOGOUT RESP:', resp);
+        // console.log('NAVBAR LOGOUT RESP:', resp);
         router.push('/users/login');
     }
 

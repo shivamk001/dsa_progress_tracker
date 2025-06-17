@@ -17,8 +17,8 @@ export class AuthController{
             throw new CustomError(401, 'Invalid Credentials 1');
         }
 
-        const passwordsMatch=await Password.compare(existingUser!.password, password);
-        
+        const passwordsMatch=await Password.compare( password, existingUser!.password);
+        console.log('PASSWORD MATCH:', passwordsMatch);
         if(!passwordsMatch){
             throw new CustomError(401, 'Invalid Credentials');
         }

@@ -18,11 +18,12 @@ export const loginSlice = createSlice({
                 state.loginStatus = false;
             })
             .addCase(loginUser.fulfilled, (state, action) =>{
-                console.log('LOGIN PAYLOAD:', action.payload);
+                // console.log('LOGIN PAYLOAD:', action.payload);
                 state.loginStatus = true;
                 state.currentUser = action.payload;
             })
             .addCase(loginUser.rejected, state =>{
+                // console.log('LOGIN REJECTED:');
                 state.loginStatus = false;
             })
 
@@ -31,7 +32,7 @@ export const loginSlice = createSlice({
                 state.loginStatus = false
             })
             .addCase(fetchCurrentUser.fulfilled, (state, action) =>{
-                console.log('CURRENTUSER PAYLOAD:', action.payload);
+                // console.log('CURRENTUSER PAYLOAD:', action.payload);
                 state.loginStatus = true;
                 state.currentUser = action.payload;
             })
@@ -44,7 +45,7 @@ export const loginSlice = createSlice({
                 state.loginStatus = true
             })
             .addCase(logoutUser.fulfilled, (state, action) =>{
-                console.log('LOGOUT PAYLOAD:', action.payload);
+                // console.log('LOGOUT PAYLOAD:', action.payload);
                 state.loginStatus = false;
                 state.currentUser = {};
             })
@@ -70,7 +71,7 @@ export const logoutUser = createAsyncThunk(
     async () =>{
         let resp = await axios.get('http://localhost:8080/auth/signout', {withCredentials: true});
         let currentUser = resp.data;
-        console.log('SLICE LOGOUT:', currentUser);
+        // console.log('SLICE LOGOUT:', currentUser);
         return currentUser;
     }
 )
@@ -78,9 +79,23 @@ export const logoutUser = createAsyncThunk(
 export const loginUser = createAsyncThunk(
     'users/login',
     async (body: {email: string, password: string}) =>{
-        let resp = await axios.post('http://localhost:8080/auth/signin', body, {withCredentials: true});
-        console.log('LOGIN RESP:', resp.data);
-        return resp.data;
+        try{
+            let resp = await axios.post(
+                'http://localhost:8080/auth/signin',
+                body,
+                {
+                    // validateStatus: function (status) {
+                    //     return status < 500; // Resolve only if status code is < 500
+                    // },
+                    withCredentials: true // Attach cookies
+                }
+            );
+            // console.log('LOGIN RESP:', resp.data);
+            return resp.data;
+        }
+        catch(err){
+            throw Error();
+        }
     }
 );
 
