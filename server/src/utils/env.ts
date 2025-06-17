@@ -10,7 +10,7 @@ export class Env{
 
         const result = dotenv.config({ path: envPath });
         if (result.error) {
-            logger.error('Failed to load .env file', result.error);
+            logger.info('Failed to load .env file', result.error);
         } else {
             logger.info('Environment variables loaded successfully');
         }

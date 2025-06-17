@@ -16,10 +16,14 @@ spec:
         - name: dsa-backend
           image: shivamk001/dsa-backend
           env:
+            - name: USE_SECRET
+              value: 1
+            - name: APP_PORT
+              value: 3000
             - name: NODE_ENV
-              value: test
+              value: dev
             - name: MONGO_URL
-              value: 'mongodb://dsa-backend-mongo-srv:27017/dsa-backend'
+              value: 'mongodb://dsa-mongo-srv:27017/dsa-backend'
             # - name: COOKIE_DOMAIN
               # value: '.trycloudflare.com'
             - name: JWT_KEY

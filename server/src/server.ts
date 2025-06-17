@@ -16,7 +16,8 @@ import { Env } from "./utils/env";
 
 let startServer = async () =>{
 
-    Env.init();
+    if(!process.env.USE_SECRET)
+        Env.init();
 
     let mongoDbUrl = Env.get('MONGODB_URL');
     // connect to mongoose
