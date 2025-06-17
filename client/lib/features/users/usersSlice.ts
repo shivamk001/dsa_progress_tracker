@@ -44,7 +44,7 @@ export const loginSlice = createSlice({
             .addCase(logoutUser.pending, state =>{
                 state.loginStatus = true
             })
-            .addCase(logoutUser.fulfilled, (state, action) =>{
+            .addCase(logoutUser.fulfilled, (state) =>{
                 // console.log('LOGOUT PAYLOAD:', action.payload);
                 state.loginStatus = false;
                 state.currentUser = {};
@@ -60,9 +60,8 @@ export const fetchCurrentUser = createAsyncThunk(
     'users/currenuser',
     async () =>{
         let resp = await axios.get('http://localhost:8080/auth/currentuser', {withCredentials: true});
-        let currentUser = resp.data;
 
-        return currentUser;
+        return resp.data;
     }
 );
 
