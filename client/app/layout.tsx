@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
+import StoreProvider from "./StoreProvider";
 
 import { config } from '@fortawesome/fontawesome-svg-core'
 import '@fortawesome/fontawesome-svg-core/styles.css'
@@ -22,8 +22,11 @@ export default function RootLayout({
       <body
         className={`bg-black w-full h-full antialiased`}
       >
-        <Navbar/>
-        {children}
+        <StoreProvider>
+          <Navbar/>
+          {children}
+        </StoreProvider>
+
       </body>
     </html>
   );
