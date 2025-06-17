@@ -16,12 +16,12 @@ router.use((req: Request, res: Response, next: NextFunction)=>{
 
 router.use(currentUser);
 
-router.get('/user/progress', UsersController.getUserProgress);
+router.get('/dsaapi/user/progress', UsersController.getUserProgress);
 
-router.post('/user/mark', UsersController.markProblem);
+router.post('/dsaapi/user/mark', UsersController.markProblem);
 
-router.post('/users/revision', UsersController.tbd);
+router.post('/dsaapi/users/revision', UsersController.tbd);
 
-router.post('/users/notes', UsersController.tbd);
+router.post('/dsaapi/users/notes', UsersController.tbd);
 
 export default router;

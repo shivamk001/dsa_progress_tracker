@@ -59,7 +59,7 @@ export const loginSlice = createSlice({
 export const fetchCurrentUser = createAsyncThunk(
     'users/currenuser',
     async () =>{
-        let resp = await axios.get('http://localhost:8080/auth/currentuser', {withCredentials: true});
+        let resp = await axios.get('http://localhost:8080/dsaapi/auth/currentuser', {withCredentials: true});
 
         return resp.data;
     }
@@ -68,7 +68,7 @@ export const fetchCurrentUser = createAsyncThunk(
 export const logoutUser = createAsyncThunk(
     'users/logout',
     async () =>{
-        let resp = await axios.get('http://localhost:8080/auth/signout', {withCredentials: true});
+        let resp = await axios.get('http://localhost:8080/dsaapi/auth/signout', {withCredentials: true});
         let currentUser = resp.data;
         // console.log('SLICE LOGOUT:', currentUser);
         return currentUser;
@@ -80,13 +80,10 @@ export const loginUser = createAsyncThunk(
     async (body: {email: string, password: string}) =>{
         try{
             let resp = await axios.post(
-                'http://localhost:8080/auth/signin',
+                'http://localhost:8080/dsaapi/auth/signin',
                 body,
                 {
-                    // validateStatus: function (status) {
-                    //     return status < 500; // Resolve only if status code is < 500
-                    // },
-                    withCredentials: true // Attach cookies
+                    withCredentials: true
                 }
             );
             // console.log('LOGIN RESP:', resp.data);

@@ -7,13 +7,13 @@ const router = express.Router();
 
 // TODO: USER EXPRESS VALIDATOR
 
-router.post('/auth/signup', AuthController.signup);
+router.post('/dsaapi/auth/signup', AuthController.signup);
 
-router.post('/auth/signin', AuthController.signin);
+router.post('/dsaapi/auth/signin', AuthController.signin);
 
-router.get('/auth/signout', AuthController.signout);
+router.get('/dsaapi/auth/signout', AuthController.signout);
 
-router.get('/auth/currentuser', currentUser, AuthController.currentUser);
+router.get('/dsaapi/auth/currentuser', currentUser, AuthController.currentUser);
 
 export default router;
 

@@ -29,7 +29,7 @@ app.use((req: Request, res: Response, next: NextFunction)=>{
     next();
 })
 
-app.get('/uptime', (req: Request, res: Response)=>{
+app.get('/dsaapi/uptime', (req: Request, res: Response)=>{
     res.send('Up');
 })
 

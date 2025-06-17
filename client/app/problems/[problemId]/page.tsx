@@ -35,7 +35,7 @@ const Problem = () => {
         console.log('PROBLEMIDREF:', problemIdRef.current);
         
         let fetchProblem = async () => {
-            let response1 = await axios.get(`http://localhost:8080/problems/${problemIdRef.current}`, { withCredentials: true});
+            let response1 = await axios.get(`http://localhost:8080/dsaapi/problems/${problemIdRef.current}`, { withCredentials: true});
 
             setProblem(prev=>response1.data);
 
@@ -58,7 +58,7 @@ const Problem = () => {
                 </div>
                 <button className='btn btn-sm'>
                     <a href={problem.leetcode}>
-                        <img src="/leetcode.png" alt="Leetcode"  className="w-6 h-6 bg-transparent" />
+                        <img src="/dsa/leetcode.png" alt="Leetcode"  className="w-6 h-6 bg-transparent" />
                     </a>
                 </button>
                 <div className='m-2 w-full flex flex-col items-center'>

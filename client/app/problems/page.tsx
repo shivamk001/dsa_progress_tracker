@@ -51,8 +51,8 @@ const Problems = () => {
     useEffect(()=>{
         // fetch all problems
         let fetchProblems = async () => {
-            let response1 = await axios.get('http://localhost:8080/problems/all', { withCredentials: true});
-            let response2 = await axios.get('http://localhost:8080/user/progress', { withCredentials: true});
+            let response1 = await axios.get('http://localhost:8080/dsaapi/problems/all', { withCredentials: true});
+            let response2 = await axios.get('http://localhost:8080/dsaapi/user/progress', { withCredentials: true});
             
             let problemsAll: Problems = response1.data;
             let problemsDone = response2.data;
@@ -78,7 +78,7 @@ const Problems = () => {
     const clicked=async (problemId: string, mark: boolean)=>{
         // e.preventDefault();
         try{
-            await axios.post('http://localhost:8080/user/mark', 
+            await axios.post('http://localhost:8080/dsaapi/user/mark', 
                 {
                     "problemId": problemId,
                     "mark": mark
@@ -240,17 +240,17 @@ const Problems = () => {
                                             </td>
                                             <td className='w-[10%]'>
                                                 <a href={problem.youtube} target="_blank" rel="noopener noreferrer">
-                                                    <img src="/youtube.png" alt="Youtube"  className="w-6 h-6 bg-transparent" />
+                                                    <img src="/dsa/youtube.png" alt="Youtube"  className="w-6 h-6 bg-transparent" />
                                                 </a>
                                             </td>
                                             <td className='w-[10%]'>
                                                 <a href={problem.article} target="_blank" rel="noopener noreferrer">
-                                                    <img src="/file.svg" alt="Article"  className="w-6 h-6 bg-transparent" />
+                                                    <img src="/dsa/file.svg" alt="Article"  className="w-6 h-6 bg-transparent" />
                                                 </a>
                                             </td>
                                             <th className='w-[10%]'>
                                                     <a href={problem.leetcode} target="_blank" rel="noopener noreferrer">
-                                                        <img src="/leetcode.png" alt="Leetcode"  className="w-6 h-6 bg-transparent" />
+                                                        <img src="/dsa/leetcode.png" alt="Leetcode"  className="w-6 h-6 bg-transparent" />
                                                     </a>
                                             </th>
                                         </tr>

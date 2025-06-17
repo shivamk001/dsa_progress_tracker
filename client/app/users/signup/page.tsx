@@ -3,7 +3,6 @@ import { FormEvent, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useAppDispatch, useAppSelector } from '@/lib/hook';
 import { fetchCurrentUser, loginUser } from '@/lib/features/users/usersSlice';
-import Link from 'next/link';
 
 export default function LoginPage() {
     const router = useRouter();
@@ -21,7 +20,7 @@ export default function LoginPage() {
 
         if(!resp.error && resp.payload.id){
             await dispatch(fetchCurrentUser());
-            router.push('/');
+            router.push('/problems');
         } else {
             // Handle errors
         }
@@ -49,8 +48,7 @@ export default function LoginPage() {
                     required/>
                 <p className="label">Required</p>
             </fieldset>
-            <button className="btn btn-md">Login</button>
-            <p className='text-sm'>New User? <Link href="/users/signup">Signup</Link></p>
+            <button className="btn">Login</button>
         </form>
     </div>
     </>

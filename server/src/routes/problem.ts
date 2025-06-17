@@ -10,13 +10,11 @@ router.use((req: Request, res: Response, next: NextFunction)=>{
     next();
 })
 
-router.get('/problems/all', ProblemsController.getAllProblems);
+router.get('/dsaapi/problems/all', ProblemsController.getAllProblems);
 
-router.get('/problems/:id', ProblemsController.getProblem);
+router.get('/dsaapi/problems/:id', ProblemsController.getProblem);
 
 // using query
-router.get('/problems', ProblemsController.getProblemByQuery);
-
-router.get('/problems', ProblemsController.tbd);
+router.get('/dsaapi/problems', ProblemsController.getProblemByQuery);
 
 export default router;

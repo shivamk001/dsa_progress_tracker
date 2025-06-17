@@ -1,5 +1,5 @@
 'use client';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import Link from 'next/link';
@@ -51,8 +51,8 @@ const Problems = () => {
     useEffect(()=>{
         // fetch all problems
         let fetchProblems = async () => {
-            let response1 = await axios.get('http://localhost:8080/problems/all', { withCredentials: true});
-            let response2 = await axios.get('http://localhost:8080/user/progress', { withCredentials: true});
+            let response1 = await axios.get('http://localhost:8080/dsaapi/problems/all', { withCredentials: true});
+            let response2 = await axios.get('http://localhost:8080/dsaapi/user/progress', { withCredentials: true});
             
             let problemsAll: Problems = response1.data;
             let problemsDone = response2.data;
@@ -66,7 +66,7 @@ const Problems = () => {
                     problem['isMarked']=doneIds.includes(problem.id);
                 }
             }
-            console.log('PROBLEMS DONE:', problemsAll);
+            // console.log('PROBLEMS DONE:', problemsAll);
 
             setProgress(prev=>problemsDone);
             setProblems(prev=>problemsAll);
@@ -78,7 +78,7 @@ const Problems = () => {
     const clicked=async (problemId: string, mark: boolean)=>{
         // e.preventDefault();
         try{
-            await axios.post('http://localhost:8080/user/mark', 
+            await axios.post('http://localhost:8080/dsaapi/user/mark', 
                 {
                     "problemId": problemId,
                     "mark": mark
@@ -162,13 +162,13 @@ const Problems = () => {
 
 
 
-                <div className="flex flex-col gap-1 border-r border-white p-2">
+                <div className="flex flex-col items-center gap-1 border-r border-white p-2">
                     <div>Easy</div>
                     <div>{progress.totalEasyDone}/{problems.totalEasyProblems} completed</div>
                     <progress
-                    className="progress progress-primary w-56"
-                    value={(progress.totalEasyDone / problems.totalProblems) * 100}
-                    max="100"
+                        className="progress progress-primary w-56"
+                        value={(problems.totalProblems == 0 ? 0 : progress.totalEasyDone / problems.totalProblems) * 100}
+                        max="100"
                     ></progress>
                 </div>
 
@@ -176,9 +176,9 @@ const Problems = () => {
                     <div>Medium</div>
                     <div>{progress.totalMediumDone}/{problems.totalMediumProblems} completed</div>
                     <progress
-                    className="progress progress-primary w-56"
-                    value={(progress.totalMediumDone / problems.totalProblems) * 100}
-                    max="100"
+                        className="progress progress-primary w-56"
+                        value={(problems.totalMediumProblems == 0 ? 0 : progress.totalMediumDone / problems.totalProblems) * 100}
+                        max="100"
                     ></progress>
                 </div>
 
@@ -186,9 +186,9 @@ const Problems = () => {
                     <div>Hard</div>
                     <div>{progress.totalHardDone}/{problems.totalHardProblems} completed</div>
                     <progress
-                    className="progress progress-primary w-56"
-                    value={(progress.totalHardDone / problems.totalProblems) * 100}
-                    max="100"
+                        className="progress progress-primary w-56"
+                        value={(problems.totalHardProblems == 0 ? 0 : progress.totalHardDone / problems.totalProblems) * 100}
+                        max="100"
                     ></progress>
                 </div>
             </div>
@@ -240,17 +240,17 @@ const Problems = () => {
                                             </td>
                                             <td className='w-[10%]'>
                                                 <a href={problem.youtube} target="_blank" rel="noopener noreferrer">
-                                                    <img src="/youtube.png" alt="Youtube"  className="w-6 h-6 bg-transparent" />
+                                                    <img src="/dsa/youtube.png" alt="Youtube"  className="w-6 h-6 bg-transparent" />
                                                 </a>
                                             </td>
                                             <td className='w-[10%]'>
                                                 <a href={problem.article} target="_blank" rel="noopener noreferrer">
-                                                    <img src="/file.svg" alt="Article"  className="w-6 h-6 bg-transparent" />
+                                                    <img src="/dsa/file.svg" alt="Article"  className="w-6 h-6 bg-transparent" />
                                                 </a>
                                             </td>
                                             <th className='w-[10%]'>
                                                     <a href={problem.leetcode} target="_blank" rel="noopener noreferrer">
-                                                        <img src="/leetcode.png" alt="Leetcode"  className="w-6 h-6 bg-transparent" />
+                                                        <img src="/dsa/leetcode.png" alt="Leetcode"  className="w-6 h-6 bg-transparent" />
                                                     </a>
                                             </th>
                                         </tr>
@@ -265,4 +265,4 @@ const Problems = () => {
     )
 }
 
-export default Problems
+export default Problems;

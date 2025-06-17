@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dsa-backend-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dsa-backend
+  template:
+    metadata:
+      labels:
+        app: dsa-backend
+    spec:
+      containers:
+        - name: dsa-backend
+          image: shivamk001/dsa-backend
+          env:
+            - name: NODE_ENV
+              value: test
+            - name: MONGO_URL
+              value: 'mongodb://dsa-backend-mongo-srv:27017/dsa-backend'
+            # - name: COOKIE_DOMAIN
+              # value: '.trycloudflare.com'
+            - name: JWT_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: jwt-secret
+                  key: JWT_KEY
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: dsa-backend-srv
+spec:
+  selector:
+    app: dsa-backend
+  ports:
+    - name: dsa-backend
+      protocol: TCP
+      port: 3000
+      targetPort: 3000
