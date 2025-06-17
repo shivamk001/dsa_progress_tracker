@@ -17,9 +17,9 @@ spec:
           image: shivamk001/dsa-backend
           env:
             - name: USE_SECRET
-              value: 1
+              value: "1"
             - name: APP_PORT
-              value: 3000
+              value: "3000"
             - name: NODE_ENV
               value: dev
             - name: MONGO_URL
