@@ -3,9 +3,12 @@ import { FormEvent, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useRequest } from '../../../hooks/useRequest';
 import { METHOD } from '../../../utils';
+import { useAppDispatch } from '@/lib/hook';
+import { fetchCurrentUser, loginUser } from '@/lib/features/users/usersSlice';
 
 export default function LoginPage() {
     const router = useRouter();
+    const dispatch = useAppDispatch();
     let [email, setEmail]=useState('');
     let [password, setPassword]=useState('');
     let doRequest=useRequest({
@@ -18,13 +21,18 @@ export default function LoginPage() {
         event.preventDefault()
 
         const formData = new FormData(event.currentTarget)
-        const email = formData.get('email');
-        const password = formData.get('password');
+        const email = formData.get('email') ? `${formData.get('email')}` : '';
+        const password = formData.get('password') ? `formData.get('password')` : '';
         console.log('USERNAME:', email, password);
         setEmail(email as string);
         setPassword(password as string);
 
-        let response=await doRequest();
+        // let response=await doRequest();
+
+        let response = await dispatch(loginUser({email, password}));
+
+        console.log('FETCH CURRENT USER');
+        await dispatch(fetchCurrentUser());
 
         if(response){
             router.push('/problems');

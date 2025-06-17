@@ -3,27 +3,19 @@ import axios from 'axios';
 import { useRouter } from 'next/navigation'
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react'
+import { useAppDispatch, useAppSelector } from '@/lib/hook';
+import { logoutUser } from '@/lib/features/users/usersSlice';
 
 const Navbar = () => {
     let router = useRouter();
-    let [isLogin, setisLogin] = useState(false);
+    let dispatch = useAppDispatch();
     
-
-    useEffect(()=>{
-        let fetchCurrent = async () =>{
-            let resp = await axios.get('http://localhost:8080/auth/currentuser');
-            let currentUser = resp.data;
-            console.log('CURRENT USER:', currentUser);
-            if(currentUser.id){
-                setisLogin(true);
-            }
-        }
-        fetchCurrent();
-    }, []);
+    let isLogin = useAppSelector(state=>state.users.loginStatus);
+    console.log('ISLOGIN NAVBAR:', isLogin);
 
     const logout = async () =>{
-        let resp = await axios.get('http://localhost:8080/auth/signout');
-        setisLogin(false);
+        let resp = await dispatch(logoutUser());
+        console.log('NAVBAR LOGOUT RESP:', resp);
         router.push('/users/login');
     }
 
@@ -42,8 +34,7 @@ const Navbar = () => {
                                 </button>
                             </li>
                         </ul>
-                        :
-                        <ul className="menu menu-horizontal px-1">
+                        : <ul className="menu menu-horizontal px-1">
                             <li><Link href='/users/login'>Login</Link></li>
                         </ul>
                 }

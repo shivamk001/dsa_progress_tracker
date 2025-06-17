@@ -12,18 +12,34 @@ export const loginSlice = createSlice({
     reducers: {},
     extraReducers: builder => {
         builder
+
+            // login user
+            .addCase(loginUser.pending, state =>{
+                state.loginStatus = false;
+            })
+            .addCase(loginUser.fulfilled, (state, action) =>{
+                console.log('LOGIN PAYLOAD:', action.payload);
+                state.loginStatus = true;
+                state.currentUser = action.payload;
+            })
+            .addCase(loginUser.rejected, state =>{
+                state.loginStatus = false;
+            })
+
+            // current user
             .addCase(fetchCurrentUser.pending, state => {
                 state.loginStatus = false
             })
             .addCase(fetchCurrentUser.fulfilled, (state, action) =>{
                 console.log('CURRENTUSER PAYLOAD:', action.payload);
                 state.loginStatus = true;
-                state.currentUser = action.payload
+                state.currentUser = action.payload;
             })
             .addCase(fetchCurrentUser.rejected, state => {
                 state.loginStatus = false
             })
 
+            // logout user
             .addCase(logoutUser.pending, state =>{
                 state.loginStatus = true
             })
@@ -49,21 +65,21 @@ export const fetchCurrentUser = createAsyncThunk(
     }
 );
 
-export const loginUser = createAsyncThunk(
+export const logoutUser = createAsyncThunk(
     'users/logout',
     async () =>{
         let resp = await axios.get('http://localhost:8080/auth/signout', {withCredentials: true});
         let currentUser = resp.data;
-
+        console.log('SLICE LOGOUT:', currentUser);
         return currentUser;
     }
 )
 
-export const logoutUser = createAsyncThunk(
-    'users/logout',
-    async () =>{
-        let resp = await axios.get('http://localhost:8080/auth/logout', {withCredentials: true});
-
+export const loginUser = createAsyncThunk(
+    'users/login',
+    async (body: {email: string, password: string}) =>{
+        let resp = await axios.post('http://localhost:8080/auth/signin', body, {withCredentials: true});
+        console.log('LOGIN RESP:', resp.data);
         return resp.data;
     }
 );
