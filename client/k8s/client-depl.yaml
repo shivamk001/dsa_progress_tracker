@@ -16,12 +16,8 @@ spec:
         - name: dsa-frontend
           image: shivamk001/dsa-frontend
           env:
-            - name: USER_SERVICE_URL
+            - name: DSA_API_URL
               value: 'http://auth-srv:3000'
-            - name: TICKET_SERVICE_URL
-              value: 'http://tickets-srv:3000'
-            - name: ORDER_SERVICE_URL
-              value: 'http://orders-srv:3000'
 ---
 
 apiVersion: v1
