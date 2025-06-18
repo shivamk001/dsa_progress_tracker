@@ -8,7 +8,8 @@ const currentUser = (req: Request, res: Response, next: NextFunction) =>{
     let {jwt: jwtToken} = req.session;
 
     if(!jwtToken){
-        next();
+        let err = new CustomError(401, 'Unauthorized User');
+        next(err);
     }
     let user = jwt.verify(jwtToken, process.env.JWT_KEY!);
     console.log('CURRENT USER:', user);

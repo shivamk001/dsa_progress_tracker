@@ -16,8 +16,8 @@ spec:
         - name: dsa-frontend
           image: shivamk001/dsa-frontend
           env:
-            - name: DSA_API_URL
-              value: 'http://auth-srv:3000'
+            - name: NEXT_PUBLIC_DSA_API_URL
+              value: 'http://dsa-backend-srv:3000'
 ---
 
 apiVersion: v1

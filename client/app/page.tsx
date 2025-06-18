@@ -51,8 +51,8 @@ const Problems = () => {
     useEffect(()=>{
         // fetch all problems
         let fetchProblems = async () => {
-            let response1 = await axios.get(`${process.env.DSA_API_URL}/dsaapi/problems/all`, { withCredentials: true});
-            let response2 = await axios.get(`${process.env.DSA_API_URL}/dsaapi/user/progress`, { withCredentials: true});
+            let response1 = await axios.get(`${process.env.NEXT_PUBLIC_DSA_API_URL}/dsaapi/problems/all`, { withCredentials: true});
+            let response2 = await axios.get(`${process.env.NEXT_PUBLIC_DSA_API_URL}/dsaapi/user/progress`, { withCredentials: true});
             
             let problemsAll: Problems = response1.data;
             let problemsDone = response2.data;
@@ -78,7 +78,7 @@ const Problems = () => {
     const clicked=async (problemId: string, mark: boolean)=>{
         // e.preventDefault();
         try{
-            await axios.post(`${process.env.DSA_API_URL}/dsaapi/user/mark`, 
+            await axios.post(`${process.env.NEXT_PUBLIC_DSA_API_URL}/dsaapi/user/mark`, 
                 {
                     "problemId": problemId,
                     "mark": mark

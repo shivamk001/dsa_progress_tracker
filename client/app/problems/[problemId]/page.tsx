@@ -35,7 +35,7 @@ const Problem = () => {
         console.log('PROBLEMIDREF:', problemIdRef.current);
         
         let fetchProblem = async () => {
-            let response1 = await axios.get(`${process.env.DSA_API_URL}/dsaapi/problems/${problemIdRef.current}`, { withCredentials: true});
+            let response1 = await axios.get(`${process.env.NEXT_PUBLIC_DSA_API_URL}/dsaapi/problems/${problemIdRef.current}`, { withCredentials: true});
 
             setProblem(prev=>response1.data);
 
