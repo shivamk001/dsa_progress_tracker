@@ -18,6 +18,7 @@ export class Env{
     }
 
     public static get(key: string){
+        console.log('KEY:', key, process.env);
         if(process.env[key]){
             return process.env[key];
         }
